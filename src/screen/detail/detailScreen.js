@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { useNavigation } from '@react-navigation/native';
 import { Style } from './detailScreenStyle';
 import { addToCart, removeFromCart } from '../../action/productAction';
@@ -55,8 +54,14 @@ const DetailScreen = ({ }) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <Text style={{fontSize:17}}>
+                <Text style={{fontSize:17,color:'black',marginTop:10}}>
                     Description: {dataList?.description}
+                </Text>
+                <Text style={{fontSize:17,color:'black',marginTop:10}}>
+                Brand: {dataList?.brand}ingredients
+                </Text>
+                <Text style={{fontSize:17,color:'black',marginTop:10}}>
+                Ingredients: {dataList?.attributes?.ingredients}
                 </Text>
                 </View>
         </ScrollView>

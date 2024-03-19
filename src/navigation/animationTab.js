@@ -6,26 +6,26 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { CartScreen } from '../screen/cart/cartScreen';
 import { ProfileScreen } from '../screen/profile/profileScreen';
-import { BackIcon } from '../asset/icon/svg';
+import { BackIcon, CartBlank, Home, Profile } from '../asset/icon/svg';
 import HomeScreen from '../screen/home/homeScreen';
 
 const TabArr = [
     {
         route: 'HomeScreen',
         label: 'Library',
-        icon: BackIcon,
+        icon: Home,
         component: HomeScreen,
     },
     {
         route: 'CartScreen',
         label: 'Cart',
-        icon: BackIcon,
+        icon: CartBlank,
         component: CartScreen,
     },
     {
         route: 'ProfileScreen',
         label: 'Profile',
-        icon: BackIcon,
+        icon: Profile,
         component: ProfileScreen,
     },
 ];

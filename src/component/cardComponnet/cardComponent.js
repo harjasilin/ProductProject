@@ -21,39 +21,63 @@ export const CardComponent = ({ data }) => {
             dispatch(addToCart(data?.productSource?.createdDate.toString()));
         }
     };
-    // useEffect(() => {
-    //     const downloadImage = async () => {
-    //         try {
-    //             // console.log('Image URL:', data?.images);
-    //             const filename = data?.images?.back.split('/').pop();
-    //             // console.log(filename, 'filename')
-    //             const downloadDest = "file://" + RNFS.DocumentDirectoryPath + '/images/d88b102c-d4c6-4dc1-9a4c-f2a0e599ddbf.jpg';
-    //             const response = await RNFS.downloadFile({
-    //                 fromUrl: data?.images?.back,
-    //                 toFile: downloadDest,
-    //             }).promise;
+    const [imageUri, setImageUri] = useState(null);
 
-    //             if (response.statusCode === 200) {
-    //                 setLocalUri(`file://${downloadDest}`);
-    //             } else {
-    //                 console.error('Error downloading image. Server responded with status code:', response.statusCode);
-    //             }
-    //         } catch (error) {
-    //             console.error('Error downloading image:', error);
-    //         }
-    //     };
+    useEffect(() => {
+        const downloadAndStoreImage = async () => {
+            try {
+                const downloadDest = `${RNFS.DocumentDirectoryPath}/image.jpg`;
 
-    //     downloadImage();
-    // }, []);
+                const response = await RNFS.downloadFile({
+                    fromUrl: 'https://storage.googleapis.com/download/storage/v1/b/cms_products/o/cms%2Fimages%2Fnullback?generation=1704956940900216&alt=media',
+                    toFile: downloadDest,
+                }).promise;
+
+                if (response.statusCode === 200) {
+                    setImageUri(`file://${downloadDest}`);
+                } else {
+                    console.error('Error downloading image. Server responded with status code:', response.statusCode);
+                }
+            } catch (error) {
+                console.error('Error downloading image:', error);
+            }
+        };
+
+        downloadAndStoreImage();
+    }, []);
+
+
+    useEffect(() => {
+        const downloadImage = async () => {
+            try {
+               
+                const filename = data?.images?.back.split('/').pop();
+               
+                const downloadDest = `${RNFS.DocumentDirectoryPath}/${filename}`;
+                const response = await RNFS.downloadFile({
+                    fromUrl: data?.images?.back,
+                    toFile: downloadDest,
+                }).promise;
+
+                if (response.statusCode === 200) {
+                    setLocalUri(`file://${downloadDest}`);
+                } else {
+                    console.error('Error downloading image. Server responded with status code:', response.statusCode);
+                }
+            } catch (error) {
+                console.error('Error downloading image:', error);
+            }
+        };
+
+        downloadImage();
+    }, []);
 
 
 
     return (
         <TouchableOpacity style={styles.page} onPress={()=>navigation.navigate('DetailScreen',{data:data})}>
-            {/* <View>
-                {localUri && <Image source={{ uri: localUri }} style={styles.image} resizeMode="contain" />}
-            </View> */}
-            <Image source={{ uri: 'https://cdn.dribbble.com/userupload/13347380/file/original-0c998bd099060f437151f8b4576bc143.png?resize=2048x1536' }} style={styles.image} resizeMode="contain" />
+          {imageUri&& <Image source={{ uri: 'https://v1/b/cms_products/o/cms%2Fimages%2Fnullback?generation=1704956940900216&alt=media.jpg' }} 
+            style={styles.image} resizeMode="contain" />}
             <View style={styles.footerWrap}>
                 <Text style={styles.movieDetail} numberOfLines={3}>
                     {data?.name}
