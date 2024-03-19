@@ -7,26 +7,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../action/productAction";
 
 export const CardComponent = ({ data }) => {
-    const dataList = data?.data
-
-
     const dispatch = useDispatch();
     const [localUri, setLocalUri] = useState(null);
     const navigation = useNavigation();
 
     const cartList = useSelector(state => state.product.carts);
+    const isCart = cartList?.includes(data?.productSource?.createdDate.toString());
 
-    const array = cartList
-    const index = array.indexOf(null);
-    const slicedArray = index !== -1 ? array.slice(index + 1) : array;
-    console.log(slicedArray, 'cartList')
-    const isCart = slicedArray?.includes(data?.key.toString());
-    console.log(isCart,'isCart')
     const toggleFavorite = () => {
         if (isCart) {
-            dispatch(removeFromCart(data?.key.toString()));
+            dispatch(removeFromCart(data?.productSource?.createdDate.toString()));
         } else {
-            dispatch(addToCart(data?.key.toString()));
+            dispatch(addToCart(data?.productSource?.createdDate.toString()));
         }
     };
     // useEffect(() => {
@@ -57,14 +49,14 @@ export const CardComponent = ({ data }) => {
 
 
     return (
-        <TouchableOpacity style={styles.page}>
+        <TouchableOpacity style={styles.page} onPress={()=>navigation.navigate('DetailScreen',{data:data})}>
             {/* <View>
                 {localUri && <Image source={{ uri: localUri }} style={styles.image} resizeMode="contain" />}
             </View> */}
             <Image source={{ uri: 'https://cdn.dribbble.com/userupload/13347380/file/original-0c998bd099060f437151f8b4576bc143.png?resize=2048x1536' }} style={styles.image} resizeMode="contain" />
             <View style={styles.footerWrap}>
                 <Text style={styles.movieDetail} numberOfLines={3}>
-                    {dataList?.name}
+                    {data?.name}
                 </Text>
 
                 <TouchableOpacity onPress={toggleFavorite}>

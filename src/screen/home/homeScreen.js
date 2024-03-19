@@ -17,7 +17,7 @@ const HomeScreen = ({ navigation }) => {
 
             <View style={styles.wrapper}>
                 {data.map((item, index) => (
-                    <CardComponent data={{ data: item, key: index }} />
+                    <CardComponent data={item} key={index}/>
                 ))}
             </View>
         </ScrollView>

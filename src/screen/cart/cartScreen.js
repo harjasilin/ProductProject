@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, FlatList } from "react-native";
 import { useSelector } from "react-redux";
-
 import HeaderComponent from "../../component/header/headerComponent";
 import { CardComponent } from "../../component/cardComponnet/cardComponent";
 
@@ -9,10 +8,8 @@ export const CartScreen = ({ navigation }) => {
     const text_Color = '#1f1f5d'
     const cartList = useSelector(state => state.product.carts);
      const products = useSelector((state) => state.product.products)
-     const arr=products?.products.map((index)=>index)
-     console.log(arr,'products?.products+++++')
-     const filteredProduct = products?.products.filter((item,index) => cartList?.includes(index.toString()));
-     console.log(filteredProduct,'filteredProduct')
+     const filteredProduct = products?.products.filter((item) => cartList?.includes(item?.productSource?.createdDate.toString()));
+
     return (
         <ScrollView style={styles.container}>
             <HeaderComponent title={'MY CART'} />
@@ -20,7 +17,7 @@ export const CartScreen = ({ navigation }) => {
                 <View style={styles.wrapper}>
                     {
                         filteredProduct.map((item, index) => (
-                            <CardComponent data={{ data: item, key: index }} />
+                            <CardComponent data={item} key={index}/>
                         ))
                     }
 
